@@ -47,16 +47,28 @@ const config = {
         },
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,           
+        test: /\.(png|svg|jpg|jpeg|gif|svg)$/i,           
         type: 'asset/resource',
         generator: {
           filename: "assets/images/[hash][ext]",
         }
-    },
+      },
+      {
+        test: /\.svg$/,
+        use: 'file-loader'
+      }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
+    new CopyPlugin({                    // copy plugins -  carpetas o directorios OPCIONAL -- 
+          patterns: [
+            {
+              from: path.resolve(__dirname, "src", "assets/images/303322.svg"),      // copiamos alguna carpeta en especifico
+              to: "assets/images"                           // generamos una carpeta assets images en el dist/
+            }
+          ],
+        }),
+    new HtmlWebpackPlugin({ 
       inject: 'body',   
       template: './public/index.html',   
       filename: 'index.html',
